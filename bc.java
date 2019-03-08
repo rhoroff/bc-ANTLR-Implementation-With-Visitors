@@ -6,7 +6,7 @@ import org.antlr.v4.*;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import java.util.Scanner;
 
-public class Calc {
+public class bc {
     public static void main(String[] args) throws Exception {
         String inputFile = null;
         if (args.length > 0) {
