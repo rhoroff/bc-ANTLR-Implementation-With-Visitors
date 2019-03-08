@@ -50,6 +50,7 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double>{
             return left - right;
         }
     }
+    @Override
     public Double visitDivTimesMod(CalculatorParser.DivTimesModContext ctx){
         double left = visit(ctx.el);
         double right = visit(ctx.er);
@@ -61,5 +62,35 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double>{
         }else{
             return left * right;
         }
+    }
+    @Override
+    public Double visitPow(CalculatorParser.PowContext ctx){
+        double base = visit(ctx.el);
+        double power = visit(ctx.er);
+        return Math.pow(base,power);
+    }
+    @Override
+    public Double visitSin(CalculatorParser.SinContext ctx){
+        double operand = visit(ctx.ex);
+        return Math.sin(operand);
+    }
+    @Override
+    public Double visitCos(CalculatorParser.CosContext ctx){
+        double operand = visit(ctx.ex);
+        return Math.cos(operand);
+    }
+    @Override
+    public Double visitLn(CalculatorParser.LnContext ctx){
+        double operand = visit(ctx.ex);
+        return Math.log(operand);
+    }
+    @Override
+    public Double visitExp(CalculatorParser.ExpContext ctx){
+        double operand = visit(ctx.ex);
+        return Math.exp(operand);
+    }
+    public Double visitSqrt(CalculatorParser.SqrtContext ctx){
+        double operand = visit(ctx.ex);
+        return Math.sqrt(operand);
     }
 }

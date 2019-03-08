@@ -156,17 +156,12 @@ expr
             $i= variables.get($var.text);
         }
     }#VarAss
-	| 's(' ex = expr ')' { $i = Math.sin($ex.i);} # Sin
-	| 'c(' ex = expr ')' { $i = Math.cos($ex.i);} # Cos
-	| 'l(' ex = expr ')' { $i = Math.log($ex.i);} # Ln
-	| 'e(' ex = expr ')' { $i = Math.exp($ex.i);} # Exp
-	| 'sqrt(' ex = expr ')' {$i = Math.sqrt($ex.i);} # Sqrt
-    | 'read()' { 
-        Scanner s = new Scanner(System.in);
-        String input = s.next();
-        $i = Double.parseDouble(input);
-        s.close();
-    } # Read
+	| 's(' ex = expr ')' # Sin
+	| 'c(' ex = expr ')' # Cos
+	| 'l(' ex = expr ')' # Ln
+	| 'e(' ex = expr ')' # Exp
+	| 'sqrt(' ex = expr ')'  # Sqrt
+    | 'read()' # Read
     ; 
 COMMENT: '/*' .* '*/';
 ID: [_A-Za-z]+;
