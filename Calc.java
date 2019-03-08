@@ -23,7 +23,11 @@ public class Calc {
             Scanner input = new Scanner(System.in);
             EvalVisitor eval = new EvalVisitor();
             while(input.hasNextLine()){
-                ANTLRInputStream ANTLRinput = new ANTLRInputStream(input.nextLine());
+                String line = input.nextLine();
+                if(line.contains("quit")){
+                    return;
+                }
+                ANTLRInputStream ANTLRinput = new ANTLRInputStream(line);
                 CalculatorLexer lexer = new CalculatorLexer(ANTLRinput);
                 CommonTokenStream tokens = new CommonTokenStream(lexer);
                 CalculatorParser parser = new CalculatorParser(tokens);
