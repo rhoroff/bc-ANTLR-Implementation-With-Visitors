@@ -120,7 +120,7 @@ public class CalculatorBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVarAss(CalculatorParser.VarAssContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVarRead(CalculatorParser.VarReadContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

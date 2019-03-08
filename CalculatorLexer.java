@@ -94,9 +94,6 @@ public class CalculatorLexer extends Lexer {
 	}
 
 
-	     Hashtable<String, Double> variables = new Hashtable<String,Double>();
-
-
 	public CalculatorLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);

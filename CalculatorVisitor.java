@@ -108,12 +108,12 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRead(CalculatorParser.ReadContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code VarAss}
+	 * Visit a parse tree produced by the {@code VarRead}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVarAss(CalculatorParser.VarAssContext ctx);
+	T visitVarRead(CalculatorParser.VarReadContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code PostCrement}
 	 * labeled alternative in {@link CalculatorParser#expr}.
