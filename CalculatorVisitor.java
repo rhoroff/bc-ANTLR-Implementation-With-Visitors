@@ -52,6 +52,27 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTopExpr(CalculatorParser.TopExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Ln}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLn(CalculatorParser.LnContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AddSub}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAddSub(CalculatorParser.AddSubContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Cos}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCos(CalculatorParser.CosContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Sqrt}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
@@ -59,33 +80,19 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSqrt(CalculatorParser.SqrtContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code LnExpr}
-	 * labeled alternative in {@link CalculatorParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLnExpr(CalculatorParser.LnExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code eExpr}
-	 * labeled alternative in {@link CalculatorParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEExpr(CalculatorParser.EExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code SinExpr}
-	 * labeled alternative in {@link CalculatorParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSinExpr(CalculatorParser.SinExprContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code Double}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDouble(CalculatorParser.DoubleContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code DivTimesMod}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDivTimesMod(CalculatorParser.DivTimesModContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Int}
 	 * labeled alternative in {@link CalculatorParser#expr}.
@@ -101,13 +108,6 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRead(CalculatorParser.ReadContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AddOrSub}
-	 * labeled alternative in {@link CalculatorParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAddOrSub(CalculatorParser.AddOrSubContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code VarAss}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
@@ -122,12 +122,19 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPostCrement(CalculatorParser.PostCrementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code DivOrTimesOrMod}
+	 * Visit a parse tree produced by the {@code Sin}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDivOrTimesOrMod(CalculatorParser.DivOrTimesOrModContext ctx);
+	T visitSin(CalculatorParser.SinContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Pow}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPow(CalculatorParser.PowContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Negate}
 	 * labeled alternative in {@link CalculatorParser#expr}.
@@ -142,13 +149,6 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExp(CalculatorParser.ExpContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code CosExpr}
-	 * labeled alternative in {@link CalculatorParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCosExpr(CalculatorParser.CosExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code PreCrement}
 	 * labeled alternative in {@link CalculatorParser#expr}.

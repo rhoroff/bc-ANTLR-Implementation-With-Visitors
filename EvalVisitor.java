@@ -39,4 +39,27 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double>{
         double value = Double.valueOf(ctx.INT().getText());
         return value;
     }
+    @Override
+    public Double visitAddSub(CalculatorParser.AddSubContext ctx){
+        double left = visit(ctx.el);
+        double right = visit(ctx.er);
+        double value;
+        if(ctx.op.getText().equals("+")){
+            return left + right;
+        }else{
+            return left - right;
+        }
+    }
+    public Double visitDivTimesMod(CalculatorParser.DivTimesModContext ctx){
+        double left = visit(ctx.el);
+        double right = visit(ctx.er);
+        double value;
+        if(ctx.op.getText().equals("%")){
+            return left % right;
+        }else if(ctx.op.getText().equals("/")){
+            return left / right;
+        }else{
+            return left * right;
+        }
+    }
 }

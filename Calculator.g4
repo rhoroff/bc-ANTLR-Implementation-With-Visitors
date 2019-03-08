@@ -144,27 +144,9 @@ expr
     } # PreCrement
 	| el = expr op = '^' er = expr { 
         $i = Math.pow($el.i, $er.i);
-    } # Exp
-	| el = expr op = ('/' | '*' | '%') er = expr { 
-        if($op.text.equals("*")){
-             $i=$el.i*$er.i;
-        } 
-        if($op.text.equals("/")){
-            $i=$el.i/$er.i;
-            
-        }
-        if($op.text.equals("%")){
-            $i=$el.i%$er.i;
-        }
-    } #DivOrTimesOrMod
-	| el = expr op = ('+' | '-') er = expr { 
-        if($op.text.equals("+")){
-             $i=$el.i+$er.i;
-        } 
-        if($op.text.equals("-")){
-            $i=$el.i-$er.i;
-        }
-    } # AddOrSub
+    } # Pow
+	| el = expr op = ('/' | '*' | '%') er = expr #DivTimesMod
+	| el = expr op = ('+' | '-') er = expr # AddSub
 	| INT # Int 
 	| DOUBLE  #Double
 	| var = ID { 
@@ -174,10 +156,10 @@ expr
             $i= variables.get($var.text);
         }
     }#VarAss
-	| 's(' ex = expr ')' { $i = Math.sin($ex.i);} # SinExpr
-	| 'c(' ex = expr ')' { $i = Math.cos($ex.i);} # CosExpr
-	| 'l(' ex = expr ')' { $i = Math.log($ex.i);} # LnExpr
-	| 'e(' ex = expr ')' { $i = Math.exp($ex.i);} # eExpr
+	| 's(' ex = expr ')' { $i = Math.sin($ex.i);} # Sin
+	| 'c(' ex = expr ')' { $i = Math.cos($ex.i);} # Cos
+	| 'l(' ex = expr ')' { $i = Math.log($ex.i);} # Ln
+	| 'e(' ex = expr ')' { $i = Math.exp($ex.i);} # Exp
 	| 'sqrt(' ex = expr ')' {$i = Math.sqrt($ex.i);} # Sqrt
     | 'read()' { 
         Scanner s = new Scanner(System.in);
