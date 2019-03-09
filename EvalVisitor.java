@@ -3,166 +3,177 @@ import java.lang.Math;
 import java.util.*;
 import java.io.Console;
 
-public class EvalVisitor extends CalculatorBaseVisitor<Double>{
-    Hashtable<String, Double> variables = new Hashtable<String,Double>();
+public class EvalVisitor extends CalculatorBaseVisitor<Double> {
+    Hashtable<String, Double> variables = new Hashtable<String, Double>();
 
     @Override
-    public Double visitNegate(CalculatorParser.NegateContext ctx){
+    public Double visitInput(CalculatorParser.InputContext ctx){
+        return visitChildren(ctx);
+    }
+
+    @Override
+    public Double visitNegate(CalculatorParser.NegateContext ctx) {
         double value = visit(ctx.expr());
         return value * -1;
     }
 
     @Override
-	public Double visitDouble(CalculatorParser.DoubleContext ctx){
+    public Double visitDouble(CalculatorParser.DoubleContext ctx) {
         double value = Double.valueOf(ctx.DOUBLE().getText());
         return value;
     }
 
     @Override
-    public Double visitTopExpr(CalculatorParser.TopExprContext ctx){
+    public Double visitTopExpr(CalculatorParser.TopExprContext ctx) {
         double value = visit(ctx.expr());
         System.out.println("Result: " + value);
-        return 0.0;//Makes java happy by returning a dummy value
+        return 0.0;// Makes java happy by returning a dummy value
     }
 
-    @Override 
-    public Double visitInt(CalculatorParser.IntContext ctx){
+    @Override
+    public Double visitInt(CalculatorParser.IntContext ctx) {
         double value = Double.valueOf(ctx.INT().getText());
         return value;
     }
 
     @Override
-    public Double visitAddSub(CalculatorParser.AddSubContext ctx){
+    public Double visitAddSub(CalculatorParser.AddSubContext ctx) {
         double left = visit(ctx.el);
         double right = visit(ctx.er);
         double value;
-        if(ctx.op.getText().equals("+")){
+        if (ctx.op.getText().equals("+")) {
             return left + right;
-        }else{
+        } else {
             return left - right;
         }
     }
 
     @Override
-    public Double visitDivTimesMod(CalculatorParser.DivTimesModContext ctx){
+    public Double visitDivTimesMod(CalculatorParser.DivTimesModContext ctx) {
         double left = visit(ctx.el);
         double right = visit(ctx.er);
         double value;
-        if(ctx.op.getText().equals("%")){
+        if (ctx.op.getText().equals("%")) {
             return left % right;
-        }else if(ctx.op.getText().equals("/")){
+        } else if (ctx.op.getText().equals("/")) {
             return left / right;
-        }else{
+        } else {
             return left * right;
         }
     }
 
     @Override
-    public Double visitPow(CalculatorParser.PowContext ctx){
+    public Double visitPow(CalculatorParser.PowContext ctx) {
         double base = visit(ctx.el);
         double power = visit(ctx.er);
-        return Math.pow(base,power);
+        return Math.pow(base, power);
     }
 
     @Override
-    public Double visitSin(CalculatorParser.SinContext ctx){
+    public Double visitSin(CalculatorParser.SinContext ctx) {
         double operand = visit(ctx.ex);
         return Math.sin(operand);
     }
 
     @Override
-    public Double visitCos(CalculatorParser.CosContext ctx){
+    public Double visitCos(CalculatorParser.CosContext ctx) {
         double operand = visit(ctx.ex);
         return Math.cos(operand);
     }
 
     @Override
-    public Double visitLn(CalculatorParser.LnContext ctx){
+    public Double visitLn(CalculatorParser.LnContext ctx) {
         double operand = visit(ctx.ex);
         return Math.log(operand);
     }
 
     @Override
-    public Double visitExp(CalculatorParser.ExpContext ctx){
+    public Double visitExp(CalculatorParser.ExpContext ctx) {
         double operand = visit(ctx.ex);
         return Math.exp(operand);
     }
 
-    public Double visitSqrt(CalculatorParser.SqrtContext ctx){
+    public Double visitSqrt(CalculatorParser.SqrtContext ctx) {
         double operand = visit(ctx.ex);
         return Math.sqrt(operand);
     }
 
-    @Override 
-    public Double visitParen(CalculatorParser.ParenContext ctx){
+    @Override
+    public Double visitParen(CalculatorParser.ParenContext ctx) {
         double value = visit(ctx.ex);
         return value;
     }
+
     @Override
-    public Double visitVarRead(CalculatorParser.VarReadContext ctx){
-        if(variables.get(ctx.var.getText()) == null){
+    public Double visitVarRead(CalculatorParser.VarReadContext ctx) {
+        if (variables.get(ctx.var.getText()) == null) {
             return 0.0;
-        }else{
+        } else {
             return variables.get(ctx.var.getText());
         }
     }
 
     @Override
-    public Double visitVarAssign(CalculatorParser.VarAssignContext ctx){
+    public Double visitVarAssign(CalculatorParser.VarAssignContext ctx) {
         double value = visit(ctx.ex);
         variables.put(ctx.varName.getText(), value);
         return 0.0;
     }
 
     @Override
-    public Double visitPreCrement(CalculatorParser.PreCrementContext ctx){
-        if(ctx.op.getText().equals("++")){
-            if(variables.get(ctx.variable.getText()) == null){
+    public Double visitPreCrement(CalculatorParser.PreCrementContext ctx) {
+        if (ctx.op.getText().equals("++")) {
+            if (variables.get(ctx.variable.getText()) == null) {
                 variables.put(ctx.variable.getText(), 1.0);
                 return 1.0;
-            }else{ 
-                double value = variables.get(ctx.variable.getText()) + 1;//Value after increment +1
-                variables.put(ctx.variable.getText(), value);//Increment the value in the variable table
-                return value;//return modified value
+            } else {
+                double value = variables.get(ctx.variable.getText()) + 1;// Value after increment +1
+                variables.put(ctx.variable.getText(), value);// Increment the value in the variable table
+                return value;// return modified value
             }
         }
-        if(ctx.op.getText().equals("--")){
-            if(variables.get(ctx.variable.getText()) == null){
+        if (ctx.op.getText().equals("--")) {
+            if (variables.get(ctx.variable.getText()) == null) {
                 variables.put(ctx.variable.getText(), -1.0);
                 return -1.0;
-            }else{ 
-                double value = variables.get(ctx.variable.getText()) - 1;//Value before increment
-                variables.put(ctx.variable.getText(), value);//Increment the value in the variable table
-                return value;//return modified value
+            } else {
+                double value = variables.get(ctx.variable.getText()) - 1;// Value before increment
+                variables.put(ctx.variable.getText(), value);// Increment the value in the variable table
+                return value;// return modified value
             }
-        }else{
+        } else {
             return 0.0;
         }
     }
 
     @Override
-    public Double visitPostCrement(CalculatorParser.PostCrementContext ctx){
-        if(ctx.op.getText().equals("++")){
-            if(variables.get(ctx.variable.getText()) == null){
+    public Double visitPostCrement(CalculatorParser.PostCrementContext ctx) {
+        if (ctx.op.getText().equals("++")) {
+            if (variables.get(ctx.variable.getText()) == null) {
                 variables.put(ctx.variable.getText(), 1.0);
                 return 0.0;
-            }else{ 
-                double value = variables.get(ctx.variable.getText());//Value before increment
-                variables.put(ctx.variable.getText(), value + 1);//Increment the value in the variable table
-                return value;//return unmodified value
+            } else {
+                double value = variables.get(ctx.variable.getText());// Value before increment
+                variables.put(ctx.variable.getText(), value + 1);// Increment the value in the variable table
+                return value;// return unmodified value
             }
         }
-        if(ctx.op.getText().equals("--")){
-            if(variables.get(ctx.variable.getText()) == null){
+        if (ctx.op.getText().equals("--")) {
+            if (variables.get(ctx.variable.getText()) == null) {
                 variables.put(ctx.variable.getText(), -1.0);
                 return 0.0;
-            }else{ 
-                double value = variables.get(ctx.variable.getText());//Value before decrement
-                variables.put(ctx.variable.getText(), value - 1);//Increment the value in the variable table
-                return value;//return unmodified value
+            } else {
+                double value = variables.get(ctx.variable.getText());// Value before decrement
+                variables.put(ctx.variable.getText(), value - 1);// Increment the value in the variable table
+                return value;// return unmodified value
             }
-        }else{
+        } else {
             return 0.0;
         }
+    }
+
+    @Override
+    public Double visitComment(CalculatorParser.CommentContext ctx){
+        return 0.0;
     }
 }

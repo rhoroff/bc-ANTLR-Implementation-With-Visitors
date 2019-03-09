@@ -7,7 +7,7 @@
             "request": "launch",
             "input": "input.txt",
             "grammar": "Calculator.g4",
-            "startRule": "topExpr",
+            "startRule": "input",
             "printParseTree": true,
             "visualParseTree": true
         }

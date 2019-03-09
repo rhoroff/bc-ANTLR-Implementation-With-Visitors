@@ -6,7 +6,7 @@ grammar Calculator;
     import java.util.*;
     import java.io.Console;
 }
-input: (varAssign)* (topExpr)*  (';' topExpr)*  (';' varAssign)*  (';' topExpr)* ';'?;
+input: (comment)* (varAssign)* (topExpr)*  (';' topExpr)* (comment)*  (';' varAssign)*  (';' topExpr)* ';'?;
 
 comment: COMMENT;
 
