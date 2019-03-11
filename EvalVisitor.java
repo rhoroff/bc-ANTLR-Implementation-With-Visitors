@@ -263,4 +263,12 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
             return 0.0;
         }
     }
+    
+    @Override
+    public Double visitString(CalculatorParser.StringContext ctx){
+        String returnValue = ctx.STRING().getText().substring(1, ctx.STRING().getText().length() - 1);
+        System.out.println(returnValue);
+        return 0.0;
+    }
+
 }

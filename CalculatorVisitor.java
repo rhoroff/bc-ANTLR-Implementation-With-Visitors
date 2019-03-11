@@ -28,6 +28,12 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitComment(CalculatorParser.CommentContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#string}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString(CalculatorParser.StringContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CalculatorParser#varAssign}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -220,4 +226,10 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParen(CalculatorParser.ParenContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#ifStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfStatement(CalculatorParser.IfStatementContext ctx);
 }
