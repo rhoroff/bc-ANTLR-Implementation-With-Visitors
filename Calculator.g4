@@ -6,11 +6,13 @@ grammar Calculator;
     import java.util.*;
     import java.io.Console;
 }
-input: (comment)* (varAssign)* (topExpr)* (';' topExpr)* (
-		comment
-	)* (loops)* (ifStatement)* (string)* (functionDef)* (';' string)* (
-		';' loops
-	)* (';' varAssign)* (';' topExpr)*  (';' functionDef)* ';'?;
+input: (comment)*  (varAssign)* (topExpr)* (
+		';' topExpr
+	)* (comment)* (loops)* (ifStatement)* (string)* (functionDef)* (
+		';' string
+	)* (';' loops)* (';' varAssign)* (';' topExpr)* (
+		';' functionDef
+	)*  ';'?;
 
 comment: COMMENT;
 
@@ -18,12 +20,15 @@ string: STRING;
 
 varAssign: varName = ID '=' ex = expr;
 
+functionCall: ID '(' (INT | DOUBLE | ID)* (',' (INT | DOUBLE | ID))*? ')';
+
 topExpr: expr;
 
 expr
 	returns[double i]:
 	'-' ex = expr									# Negate
 	| '(' ex = expr ')'								# ExprParen
+	| functionCall									#exprFunctionCall
 	| variable = expr op = ('++' | '--')			# PostCrement
 	| op = ('++' | '--') variable = expr			# PreCrement
 	| el = expr op = '^' er = expr					# Pow
@@ -58,7 +63,10 @@ loops:
 	WHILE '(' ex = expr ')' action = topExpr								# WhileLoop
 	| FOR '(' ex1 = expr ';' ex2 = expr ';' ex3 = expr ')' action = topExpr	# ForLoop;
 
-functionDef: DEFINE ID '('(ID)* (','ID)*? ') {' (expr)*? (';' expr)?  (';'expr';')? 'return ' returnValue= expr '}' ;
+functionDef:
+	DEFINE ID '(' (ID)* (',' ID)*? ') {' (expr)*? (';' expr)? (
+		';' expr ';'
+	)? 'return ' returnValue = expr '}';
 
 DEFINE: 'define';
 STRING: '"' .* '"';
