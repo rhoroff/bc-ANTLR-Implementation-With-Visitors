@@ -8,9 +8,11 @@ grammar Calculator;
 }
 input: (comment)* (varAssign)* (topExpr)* (';' topExpr)* (
 		comment
-	)* (topBool)* (';' topBool)* (';' varAssign)* (';' topExpr)* ';'?;
+	)* (ifStatement)* (topBool)* (string)* (';' string)* (';' topBool)* (';' varAssign)* (';' topExpr)* ';'?;
 
 comment: COMMENT;
+
+string: STRING;
 
 varAssign: varName = ID '=' ex = expr;
 
@@ -18,15 +20,15 @@ topBool: bool;
 
 bool
 	returns[int j]:
-	el = expr op = '==' er = expr # Equals
-	| el = expr op = '<' er = expr # LessThan
-	| el = expr op = '>' er = expr # GreaterThan
-	| el = expr op = '>=' er = expr # GreaterThanEquals
-	| el = expr op = '<=' er = expr  # LessThanEquals
-	| el = expr op = '!=' er = expr # NotEquals
-	| el = expr op = '&&' er = expr # And
-	| el = expr op = '||' er = expr # Or
-	| '!' ex = expr  # Not;
+	el = expr op = '==' er = expr	# Equals
+	| el = expr op = '<' er = expr	# LessThan
+	| el = expr op = '>' er = expr	# GreaterThan
+	| el = expr op = '>=' er = expr	# GreaterThanEquals
+	| el = expr op = '<=' er = expr	# LessThanEquals
+	| el = expr op = '!=' er = expr	# NotEquals
+	| el = expr op = '&&' er = expr	# And
+	| el = expr op = '||' er = expr	# Or
+	| '!' ex = expr					# Not;
 
 topExpr: expr;
 
@@ -48,6 +50,12 @@ expr
 	| 'e(' ex = expr ')'							# Exp
 	| 'sqrt(' ex = expr ')'							# Sqrt
 	| 'read()'										# Read;
+
+ifStatement: IF '('cond = input')' action = expr ((ELSE) (altAction = input))?;
+
+STRING: '"' .* '"';
+IF:'if';
+ELSE:'else';
 COMMENT: '/*' .* '*/';
 ID: [_A-Za-z]+;
 INT: [0-9]+;

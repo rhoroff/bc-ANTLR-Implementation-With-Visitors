@@ -25,11 +25,14 @@ T__23=24
 T__24=25
 T__25=26
 T__26=27
-COMMENT=28
-ID=29
-INT=30
-DOUBLE=31
-WS=32
+STRING=28
+IF=29
+ELSE=30
+COMMENT=31
+ID=32
+INT=33
+DOUBLE=34
+WS=35
 ';'=1
 '='=2
 '=='=3
@@ -57,3 +60,5 @@ WS=32
 'e('=25
 'sqrt('=26
 'read()'=27
+'if'=29
+'else'=30
