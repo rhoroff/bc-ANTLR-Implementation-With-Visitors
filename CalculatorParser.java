@@ -235,35 +235,31 @@ public class CalculatorParser extends Parser {
 			}
 			setState(48);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					{
-					{
-					setState(45);
-					ifStatement();
-					}
-					} 
+			_la = _input.LA(1);
+			while (_la==IF) {
+				{
+				{
+				setState(45);
+				ifStatement();
+				}
 				}
 				setState(50);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+				_la = _input.LA(1);
 			}
 			setState(54);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					{
-					{
-					setState(51);
-					string();
-					}
-					} 
+			_la = _input.LA(1);
+			while (_la==STRING) {
+				{
+				{
+				setState(51);
+				string();
+				}
 				}
 				setState(56);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+				_la = _input.LA(1);
 			}
 			setState(61);
 			_errHandler.sync(this);
@@ -321,14 +317,14 @@ public class CalculatorParser extends Parser {
 			}
 			setState(79);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
-			case 1:
+			_la = _input.LA(1);
+			if (_la==T__0) {
 				{
 				setState(78);
 				match(T__0);
 				}
-				break;
 			}
+
 			}
 		}
 		catch (RecognitionException re) {
@@ -1246,10 +1242,13 @@ public class CalculatorParser extends Parser {
 	public static class IfStatementContext extends ParserRuleContext {
 		public ExprContext cond;
 		public TopExprContext action;
-		public InputContext altAction;
+		public TopExprContext altAction;
 		public TerminalNode IF() { return getToken(CalculatorParser.IF, 0); }
-		public TopExprContext topExpr() {
-			return getRuleContext(TopExprContext.class,0);
+		public List<TopExprContext> topExpr() {
+			return getRuleContexts(TopExprContext.class);
+		}
+		public TopExprContext topExpr(int i) {
+			return getRuleContext(TopExprContext.class,i);
 		}
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -1258,9 +1257,6 @@ public class CalculatorParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public TerminalNode ELSE() { return getToken(CalculatorParser.ELSE, 0); }
-		public InputContext input() {
-			return getRuleContext(InputContext.class,0);
-		}
 		public IfStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1312,7 +1308,7 @@ public class CalculatorParser extends Parser {
 				}
 				{
 				setState(178);
-				((IfStatementContext)_localctx).altAction = input();
+				((IfStatementContext)_localctx).altAction = topExpr();
 				}
 				}
 			}
@@ -1424,7 +1420,7 @@ public class CalculatorParser extends Parser {
 		"\3\2\2\2\u00aa\u00ab\7\37\2\2\u00ab\u00ad\7\6\2\2\u00ac\u00ae\5\f\7\2"+
 		"\u00ad\u00ac\3\2\2\2\u00ae\u00af\3\2\2\2\u00af\u00ad\3\2\2\2\u00af\u00b0"+
 		"\3\2\2\2\u00b0\u00b1\3\2\2\2\u00b1\u00b2\7\7\2\2\u00b2\u00b5\5\n\6\2\u00b3"+
-		"\u00b4\7 \2\2\u00b4\u00b6\5\2\2\2\u00b5\u00b3\3\2\2\2\u00b5\u00b6\3\2"+
+		"\u00b4\7 \2\2\u00b4\u00b6\5\n\6\2\u00b5\u00b3\3\2\2\2\u00b5\u00b6\3\2"+
 		"\2\2\u00b6\17\3\2\2\2\22\23\31\37&,\628?FMQ\u0080\u00a5\u00a7\u00af\u00b5";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());

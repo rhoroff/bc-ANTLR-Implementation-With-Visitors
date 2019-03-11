@@ -50,7 +50,7 @@ expr
 
 ifStatement:
 	IF '(' (cond = expr)+ ')' action = topExpr (
-		(ELSE) (altAction = input)
+		(ELSE) (altAction = topExpr)
 	)?;
 
 STRING: '"' .* '"';
