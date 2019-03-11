@@ -280,4 +280,20 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
         return 0.0;
     }
 
+    @Override
+    public Double visitWhileLoop(CalculatorParser.WhileLoopContext ctx){
+        while(visit(ctx.ex) != 0){
+            visit(ctx.action);
+        }
+        return 0.0;
+    }
+
+    @Override public Double visitForLoop(CalculatorParser.ForLoopContext ctx){
+        double initialValue = visit(ctx.ex1);
+        while (visit(ctx.ex2) != 0){
+            visit(ctx.action);
+            visit(ctx.ex3);
+        }
+        return 0.0;
+    }
 }

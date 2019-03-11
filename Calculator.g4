@@ -8,7 +8,7 @@ grammar Calculator;
 }
 input: (comment)* (varAssign)* (topExpr)* (';' topExpr)* (
 		comment
-	)* (ifStatement)* (string)* (';' string)* (';' varAssign)* (
+	)* (loops)* (ifStatement)* (string)* (';' string)* (';' loops)* (';' varAssign)* (
 		';' topExpr
 	)* ';'?;
 
@@ -53,9 +53,16 @@ ifStatement:
 		(ELSE) (altAction = topExpr)
 	)?;
 
+loops:
+	WHILE '('ex=expr')' action = topExpr #WhileLoop
+	| FOR '(' ex1 = expr ';' ex2 = expr ';' ex3 = expr ')' action = topExpr #ForLoop
+	;
+
 STRING: '"' .* '"';
 IF: 'if';
 ELSE: 'else';
+WHILE: 'while';
+FOR: 'for';
 COMMENT: '/*' .* '*/';
 ID: [_A-Za-z]+;
 INT: [0-9]+;
