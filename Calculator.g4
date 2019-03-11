@@ -8,9 +8,9 @@ grammar Calculator;
 }
 input: (comment)* (varAssign)* (topExpr)* (';' topExpr)* (
 		comment
-	)* (loops)* (ifStatement)* (string)* (';' string)* (';' loops)* (';' varAssign)* (
-		';' topExpr
-	)* ';'?;
+	)* (loops)* (ifStatement)* (string)* (';' string)* (
+		';' loops
+	)* (';' varAssign)* (';' topExpr)* ';'?;
 
 comment: COMMENT;
 
@@ -46,7 +46,8 @@ expr
 	| el = expr op = '!=' er = expr					# NotEquals
 	| el = expr op = '&&' er = expr					# And
 	| el = expr op = '||' er = expr					# Or
-	| '!' (ex = expr)								# Not;
+	| '!' (ex = expr)								# Not
+	| varAssign										# VarAssignment;
 
 ifStatement:
 	IF '(' (cond = expr)+ ')' action = topExpr (
@@ -54,9 +55,8 @@ ifStatement:
 	)?;
 
 loops:
-	WHILE '('ex=expr')' action = topExpr #WhileLoop
-	| FOR '(' ex1 = expr ';' ex2 = expr ';' ex3 = expr ')' action = topExpr #ForLoop
-	;
+	WHILE '(' ex = expr ')' action = topExpr								# WhileLoop
+	| FOR '(' ex1 = expr ';' ex2 = expr ';' ex3 = expr ')' action = topExpr	# ForLoop;
 
 STRING: '"' .* '"';
 IF: 'if';

@@ -81,6 +81,13 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGreaterThan(CalculatorParser.GreaterThanContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code VarAssignment}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarAssignment(CalculatorParser.VarAssignmentContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Ln}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
