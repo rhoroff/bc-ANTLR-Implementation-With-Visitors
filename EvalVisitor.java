@@ -99,7 +99,7 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     }
 
     @Override
-    public Double visitExprParen(CalculatorParser.ExprParenContext ctx){
+    public Double visitExprParen(CalculatorParser.ExprParenContext ctx) {
         double value = visit(ctx.ex);
         return value;
     }
