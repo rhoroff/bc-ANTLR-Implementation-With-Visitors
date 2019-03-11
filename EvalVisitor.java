@@ -176,4 +176,91 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     public Double visitComment(CalculatorParser.CommentContext ctx){
         return 0.0;
     }
+
+    @Override
+    public Double visitTopBool(CalculatorParser.TopBoolContext ctx){
+        double value = visit(ctx.bool());
+        System.out.println("Result: " + value);
+        return 0.0;//Return nothing so Java doesn't poop itself
+    }
+    @Override
+    public Double visitEquals(CalculatorParser.EqualsContext ctx){
+        if(Double.valueOf(visit(ctx.el)).equals(Double.valueOf(visit(ctx.er)))){
+            return 1.0;
+        }else{
+            return 0.0;
+        }
+    }
+
+    @Override
+    public Double visitLessThan(CalculatorParser.LessThanContext ctx){
+        if(Double.valueOf(visit(ctx.el)) < (Double.valueOf(visit(ctx.er)))){
+            return 1.0;
+        }else{
+            return 0.0;
+        }
+    }
+
+    @Override
+    public Double visitGreaterThan(CalculatorParser.GreaterThanContext ctx){
+        if(Double.valueOf(visit(ctx.el)) > (Double.valueOf(visit(ctx.er)))){
+            return 1.0;
+        }else{
+            return 0.0;
+        }
+    }
+
+    @Override
+    public Double visitLessThanEquals(CalculatorParser.LessThanEqualsContext ctx){
+        if(Double.valueOf(visit(ctx.el)) <= (Double.valueOf(visit(ctx.er)))){
+            return 1.0;
+        }else{
+            return 0.0;
+        }
+    }
+
+    @Override
+    public Double visitGreaterThanEquals(CalculatorParser.GreaterThanEqualsContext ctx){
+        if(Double.valueOf(visit(ctx.el)) >= (Double.valueOf(visit(ctx.er)))){
+            return 1.0;
+        }else{
+            return 0.0;
+        }
+    }
+
+    @Override
+    public Double visitNotEquals(CalculatorParser.NotEqualsContext ctx){
+        if(!Double.valueOf(visit(ctx.el)).equals(Double.valueOf(visit(ctx.er)))){
+            return 1.0;
+        }else{
+            return 0.0;
+        }
+    }
+
+    @Override
+    public Double visitAnd(CalculatorParser.AndContext ctx){
+        if(Double.valueOf(visit(ctx.el)) != 0 && Double.valueOf(visit(ctx.er)) != 0){
+            return 1.0;
+        }else{
+            return 0.0;
+        }
+    }
+
+    @Override
+    public Double visitOr(CalculatorParser.OrContext ctx){
+        if(Double.valueOf(visit(ctx.el)) != 0 || Double.valueOf(visit(ctx.er)) != 0){
+            return 1.0;
+        }else{
+            return 0.0;
+        }
+    }
+
+    @Override
+    public Double visitNot(CalculatorParser.NotContext ctx){
+        if(Double.valueOf(visit(ctx.ex)) == 0){
+            return 1.0;
+        }else{
+            return 0.0;
+        }
+    }
 }
