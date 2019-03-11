@@ -8,7 +8,9 @@ grammar Calculator;
 }
 input: (comment)* (varAssign)* (topExpr)* (';' topExpr)* (
 		comment
-	)* (ifStatement)* (topBool)* (string)* (';' string)* (';' topBool)* (';' varAssign)* (';' topExpr)* ';'?;
+	)* (ifStatement)* (string)* (';' string)* (';' varAssign)* (
+		';' topExpr
+	)* ';'?;
 
 comment: COMMENT;
 
@@ -16,26 +18,12 @@ string: STRING;
 
 varAssign: varName = ID '=' ex = expr;
 
-topBool: bool;
-
-bool
-	returns[int j]:
-	el = expr op = '==' er = expr	# Equals
-	| el = expr op = '<' er = expr	# LessThan
-	| el = expr op = '>' er = expr	# GreaterThan
-	| el = expr op = '>=' er = expr	# GreaterThanEquals
-	| el = expr op = '<=' er = expr	# LessThanEquals
-	| el = expr op = '!=' er = expr	# NotEquals
-	| el = expr op = '&&' er = expr	# And
-	| el = expr op = '||' er = expr	# Or
-	| '!' ex = expr					# Not;
-
 topExpr: expr;
 
 expr
 	returns[double i]:
 	'-' ex = expr									# Negate
-	| '(' ex = expr ')'								# Paren
+	| '(' ex = expr ')'								# ExprParen
 	| variable = expr op = ('++' | '--')			# PostCrement
 	| op = ('++' | '--') variable = expr			# PreCrement
 	| el = expr op = '^' er = expr					# Pow
@@ -49,13 +37,25 @@ expr
 	| 'l(' ex = expr ')'							# Ln
 	| 'e(' ex = expr ')'							# Exp
 	| 'sqrt(' ex = expr ')'							# Sqrt
-	| 'read()'										# Read;
+	| 'read()'										# Read
+	| el = expr op = '==' er = expr					# Equals
+	| el = expr op = '<' er = expr					# LessThan
+	| el = expr op = '>' er = expr					# GreaterThan
+	| el = expr op = '>=' er = expr					# GreaterThanEquals
+	| el = expr op = '<=' er = expr					# LessThanEquals
+	| el = expr op = '!=' er = expr					# NotEquals
+	| el = expr op = '&&' er = expr					# And
+	| el = expr op = '||' er = expr					# Or
+	| '!' (ex = expr)								# Not;
 
-ifStatement: IF '('cond = input')' action = expr ((ELSE) (altAction = input))?;
+ifStatement:
+	IF '(' (cond = expr)+ ')' action = topExpr (
+		(ELSE) (altAction = input)
+	)?;
 
 STRING: '"' .* '"';
-IF:'if';
-ELSE:'else';
+IF: 'if';
+ELSE: 'else';
 COMMENT: '/*' .* '*/';
 ID: [_A-Za-z]+;
 INT: [0-9]+;

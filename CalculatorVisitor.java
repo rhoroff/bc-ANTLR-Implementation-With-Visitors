@@ -40,80 +40,46 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVarAssign(CalculatorParser.VarAssignContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link CalculatorParser#topBool}.
+	 * Visit a parse tree produced by {@link CalculatorParser#topExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTopBool(CalculatorParser.TopBoolContext ctx);
+	T visitTopExpr(CalculatorParser.TopExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Equals}
-	 * labeled alternative in {@link CalculatorParser#bool}.
+	 * Visit a parse tree produced by the {@code Or}
+	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEquals(CalculatorParser.EqualsContext ctx);
+	T visitOr(CalculatorParser.OrContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Int}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInt(CalculatorParser.IntContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Read}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRead(CalculatorParser.ReadContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code LessThan}
-	 * labeled alternative in {@link CalculatorParser#bool}.
+	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLessThan(CalculatorParser.LessThanContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code GreaterThan}
-	 * labeled alternative in {@link CalculatorParser#bool}.
+	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitGreaterThan(CalculatorParser.GreaterThanContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code GreaterThanEquals}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGreaterThanEquals(CalculatorParser.GreaterThanEqualsContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code LessThanEquals}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLessThanEquals(CalculatorParser.LessThanEqualsContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code NotEquals}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNotEquals(CalculatorParser.NotEqualsContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code And}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAnd(CalculatorParser.AndContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Or}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitOr(CalculatorParser.OrContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Not}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNot(CalculatorParser.NotContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link CalculatorParser#topExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTopExpr(CalculatorParser.TopExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Ln}
 	 * labeled alternative in {@link CalculatorParser#expr}.
@@ -121,6 +87,13 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLn(CalculatorParser.LnContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExprParen}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprParen(CalculatorParser.ExprParenContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code AddSub}
 	 * labeled alternative in {@link CalculatorParser#expr}.
@@ -157,19 +130,33 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDivTimesMod(CalculatorParser.DivTimesModContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Int}
+	 * Visit a parse tree produced by the {@code NotEquals}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInt(CalculatorParser.IntContext ctx);
+	T visitNotEquals(CalculatorParser.NotEqualsContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Read}
+	 * Visit a parse tree produced by the {@code GreaterThanEquals}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRead(CalculatorParser.ReadContext ctx);
+	T visitGreaterThanEquals(CalculatorParser.GreaterThanEqualsContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Not}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNot(CalculatorParser.NotContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Equals}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEquals(CalculatorParser.EqualsContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code VarRead}
 	 * labeled alternative in {@link CalculatorParser#expr}.
@@ -177,6 +164,13 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVarRead(CalculatorParser.VarReadContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code And}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAnd(CalculatorParser.AndContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code PostCrement}
 	 * labeled alternative in {@link CalculatorParser#expr}.
@@ -220,12 +214,12 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPreCrement(CalculatorParser.PreCrementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Paren}
+	 * Visit a parse tree produced by the {@code LessThanEquals}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParen(CalculatorParser.ParenContext ctx);
+	T visitLessThanEquals(CalculatorParser.LessThanEqualsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CalculatorParser#ifStatement}.
 	 * @param ctx the parse tree

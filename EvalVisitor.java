@@ -7,8 +7,8 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     Hashtable<String, Double> variables = new Hashtable<String, Double>();
 
     @Override
-    public Double visitInput(CalculatorParser.InputContext ctx){
-        return visitChildren(ctx);
+    public Double visitInput(CalculatorParser.InputContext ctx) {
+        return (visitChildren(ctx));
     }
 
     @Override
@@ -99,7 +99,7 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     }
 
     @Override
-    public Double visitParen(CalculatorParser.ParenContext ctx) {
+    public Double visitExprParen(CalculatorParser.ExprParenContext ctx){
         double value = visit(ctx.ex);
         return value;
     }
@@ -173,101 +173,110 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     }
 
     @Override
-    public Double visitComment(CalculatorParser.CommentContext ctx){
+    public Double visitComment(CalculatorParser.CommentContext ctx) {
         return 0.0;
     }
 
     @Override
-    public Double visitTopBool(CalculatorParser.TopBoolContext ctx){
-        double value = visit(ctx.bool());
-        System.out.println("Result: " + value);
-        return 0.0;//Return nothing so Java doesn't poop itself
-    }
-    @Override
-    public Double visitEquals(CalculatorParser.EqualsContext ctx){
-        if(Double.valueOf(visit(ctx.el)).equals(Double.valueOf(visit(ctx.er)))){
+    public Double visitEquals(CalculatorParser.EqualsContext ctx) {
+        if (Double.valueOf(visit(ctx.el)).equals(Double.valueOf(visit(ctx.er)))) {
             return 1.0;
-        }else{
+        } else {
             return 0.0;
         }
     }
 
     @Override
-    public Double visitLessThan(CalculatorParser.LessThanContext ctx){
-        if(Double.valueOf(visit(ctx.el)) < (Double.valueOf(visit(ctx.er)))){
+    public Double visitLessThan(CalculatorParser.LessThanContext ctx) {
+        if (Double.valueOf(visit(ctx.el)) < (Double.valueOf(visit(ctx.er)))) {
             return 1.0;
-        }else{
+        } else {
             return 0.0;
         }
     }
 
     @Override
-    public Double visitGreaterThan(CalculatorParser.GreaterThanContext ctx){
-        if(Double.valueOf(visit(ctx.el)) > (Double.valueOf(visit(ctx.er)))){
+    public Double visitGreaterThan(CalculatorParser.GreaterThanContext ctx) {
+        if (Double.valueOf(visit(ctx.el)) > (Double.valueOf(visit(ctx.er)))) {
             return 1.0;
-        }else{
+        } else {
             return 0.0;
         }
     }
 
     @Override
-    public Double visitLessThanEquals(CalculatorParser.LessThanEqualsContext ctx){
-        if(Double.valueOf(visit(ctx.el)) <= (Double.valueOf(visit(ctx.er)))){
+    public Double visitLessThanEquals(CalculatorParser.LessThanEqualsContext ctx) {
+        if (Double.valueOf(visit(ctx.el)) <= (Double.valueOf(visit(ctx.er)))) {
             return 1.0;
-        }else{
+        } else {
             return 0.0;
         }
     }
 
     @Override
-    public Double visitGreaterThanEquals(CalculatorParser.GreaterThanEqualsContext ctx){
-        if(Double.valueOf(visit(ctx.el)) >= (Double.valueOf(visit(ctx.er)))){
+    public Double visitGreaterThanEquals(CalculatorParser.GreaterThanEqualsContext ctx) {
+        if (Double.valueOf(visit(ctx.el)) >= (Double.valueOf(visit(ctx.er)))) {
             return 1.0;
-        }else{
+        } else {
             return 0.0;
         }
     }
 
     @Override
-    public Double visitNotEquals(CalculatorParser.NotEqualsContext ctx){
-        if(!Double.valueOf(visit(ctx.el)).equals(Double.valueOf(visit(ctx.er)))){
+    public Double visitNotEquals(CalculatorParser.NotEqualsContext ctx) {
+        if (!Double.valueOf(visit(ctx.el)).equals(Double.valueOf(visit(ctx.er)))) {
             return 1.0;
-        }else{
+        } else {
             return 0.0;
         }
     }
 
     @Override
-    public Double visitAnd(CalculatorParser.AndContext ctx){
-        if(Double.valueOf(visit(ctx.el)) != 0 && Double.valueOf(visit(ctx.er)) != 0){
+    public Double visitAnd(CalculatorParser.AndContext ctx) {
+        if (Double.valueOf(visit(ctx.el)) != 0 && Double.valueOf(visit(ctx.er)) != 0) {
             return 1.0;
-        }else{
+        } else {
             return 0.0;
         }
     }
 
     @Override
-    public Double visitOr(CalculatorParser.OrContext ctx){
-        if(Double.valueOf(visit(ctx.el)) != 0 || Double.valueOf(visit(ctx.er)) != 0){
+    public Double visitOr(CalculatorParser.OrContext ctx) {
+        if (Double.valueOf(visit(ctx.el)) != 0 || Double.valueOf(visit(ctx.er)) != 0) {
             return 1.0;
-        }else{
+        } else {
             return 0.0;
         }
     }
 
     @Override
-    public Double visitNot(CalculatorParser.NotContext ctx){
-        if(Double.valueOf(visit(ctx.ex)) == 0){
+    public Double visitNot(CalculatorParser.NotContext ctx) {
+        if (Double.valueOf(visit(ctx.ex)) == 0) {
             return 1.0;
-        }else{
+        } else {
             return 0.0;
         }
     }
-    
+
     @Override
-    public Double visitString(CalculatorParser.StringContext ctx){
+    public Double visitString(CalculatorParser.StringContext ctx) {
         String returnValue = ctx.STRING().getText().substring(1, ctx.STRING().getText().length() - 1);
         System.out.println(returnValue);
+        return 0.0;
+    }
+
+    @Override
+    public Double visitIfStatement(CalculatorParser.IfStatementContext ctx) {
+        double ifCond = visit(ctx.cond);// This will either return a number or an expression
+        double returnValue;// Value will change depending on the logic of the statement
+        if (ifCond != 0) {
+            returnValue = visit(ctx.action);
+            return returnValue;
+        }
+        if (ctx.ELSE() != null) {
+            returnValue = visit(ctx.altAction);
+            return returnValue;
+        }
         return 0.0;
     }
 
