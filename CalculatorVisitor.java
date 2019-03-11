@@ -247,4 +247,10 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitForLoop(CalculatorParser.ForLoopContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#functionDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionDef(CalculatorParser.FunctionDefContext ctx);
 }

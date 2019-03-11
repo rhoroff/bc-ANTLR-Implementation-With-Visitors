@@ -296,4 +296,9 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
         }
         return 0.0;
     }
+
+    @Override
+    public Double visitFunctionDef(CalculatorParser.FunctionDefContext ctx){
+        return 0.0;
+    }
 }

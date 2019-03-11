@@ -8,9 +8,9 @@ grammar Calculator;
 }
 input: (comment)* (varAssign)* (topExpr)* (';' topExpr)* (
 		comment
-	)* (loops)* (ifStatement)* (string)* (';' string)* (
+	)* (loops)* (ifStatement)* (string)* (functionDef)* (';' string)* (
 		';' loops
-	)* (';' varAssign)* (';' topExpr)* ';'?;
+	)* (';' varAssign)* (';' topExpr)*  (';' functionDef)* ';'?;
 
 comment: COMMENT;
 
@@ -58,7 +58,9 @@ loops:
 	WHILE '(' ex = expr ')' action = topExpr								# WhileLoop
 	| FOR '(' ex1 = expr ';' ex2 = expr ';' ex3 = expr ')' action = topExpr	# ForLoop;
 
+functionDef: DEFINE ID '('(ID)+ ') {' (expr)*? (';' expr)?  (';'expr';')? 'return ' returnValue= expr '}' ;
 
+DEFINE: 'define';
 STRING: '"' .* '"';
 IF: 'if';
 ELSE: 'else';
