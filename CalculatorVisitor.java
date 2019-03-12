@@ -40,6 +40,12 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVarAssign(CalculatorParser.VarAssignContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#functionCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionCall(CalculatorParser.FunctionCallContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CalculatorParser#topExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -87,6 +93,13 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVarAssignment(CalculatorParser.VarAssignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code exprFunctionCall}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprFunctionCall(CalculatorParser.ExprFunctionCallContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Ln}
 	 * labeled alternative in {@link CalculatorParser#expr}.
