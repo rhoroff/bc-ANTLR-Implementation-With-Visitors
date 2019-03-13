@@ -6,13 +6,13 @@ grammar Calculator;
     import java.util.*;
     import java.io.Console;
 }
-input: (comment)*  (varAssign)* (topExpr)* (
-		';' topExpr
-	)* (comment)* (loops)* (ifStatement)* (string)* (functionDef)* (
+input: (comment)* (varAssign)* (topExpr)* (';' topExpr)* (
+		comment
+	)* (loops)* (ifStatement)* (string)* (functionDef)* (
 		';' string
 	)* (';' loops)* (';' varAssign)* (';' topExpr)* (
 		';' functionDef
-	)*  ';'?;
+	)* ';'?;
 
 comment: COMMENT;
 
@@ -20,7 +20,8 @@ string: STRING;
 
 varAssign: varName = ID '=' ex = expr;
 
-functionCall: ID '(' (INT | DOUBLE | ID)* (',' (INT | DOUBLE | ID))*? ')';
+functionCall:
+	ID '(' (INT | DOUBLE | ID)* (',' (INT | DOUBLE | ID))*? ')';
 
 topExpr: expr;
 
@@ -28,7 +29,7 @@ expr
 	returns[double i]:
 	'-' ex = expr									# Negate
 	| '(' ex = expr ')'								# ExprParen
-	| functionCall									#exprFunctionCall
+	| functionCall									# exprFunctionCall
 	| variable = expr op = ('++' | '--')			# PostCrement
 	| op = ('++' | '--') variable = expr			# PreCrement
 	| el = expr op = '^' er = expr					# Pow

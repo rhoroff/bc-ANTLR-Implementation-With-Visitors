@@ -12,6 +12,41 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     }
 
     @Override
+    public Double visitComment(CalculatorParser.CommentContext ctx) {
+        return 0.0;
+    }
+
+    @Override
+    public Double visitString(CalculatorParser.StringContext ctx) {
+        String returnValue = ctx.STRING().getText().substring(1, ctx.STRING().getText().length() - 1);
+        System.out.println(returnValue);
+        return 0.0;
+    }
+
+    @Override
+    public Double visitVarAssign(CalculatorParser.VarAssignContext ctx) {
+        double value = visit(ctx.ex);
+        variables.put(ctx.varName.getText(), value);
+        return 0.0;
+    }
+
+    @Override
+    public Double visitTopExpr(CalculatorParser.TopExprContext ctx) {
+        double value = visit(ctx.expr());
+        System.out.println("Result: " + value);
+        return 0.0;// Makes java happy by returning a dummy value
+    }
+
+    @Override
+    public Double visitOr(CalculatorParser.OrContext ctx) {
+        if (Double.valueOf(visit(ctx.el)) != 0 || Double.valueOf(visit(ctx.er)) != 0) {
+            return 1.0;
+        } else {
+            return 0.0;
+        }
+    }
+
+    @Override
     public Double visitNegate(CalculatorParser.NegateContext ctx) {
         double value = visit(ctx.expr());
         return value * -1;
@@ -21,13 +56,6 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     public Double visitDouble(CalculatorParser.DoubleContext ctx) {
         double value = Double.valueOf(ctx.DOUBLE().getText());
         return value;
-    }
-
-    @Override
-    public Double visitTopExpr(CalculatorParser.TopExprContext ctx) {
-        double value = visit(ctx.expr());
-        System.out.println("Result: " + value);
-        return 0.0;// Makes java happy by returning a dummy value
     }
 
     @Override
@@ -114,13 +142,6 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     }
 
     @Override
-    public Double visitVarAssign(CalculatorParser.VarAssignContext ctx) {
-        double value = visit(ctx.ex);
-        variables.put(ctx.varName.getText(), value);
-        return 0.0;
-    }
-
-    @Override
     public Double visitPreCrement(CalculatorParser.PreCrementContext ctx) {
         if (ctx.op.getText().equals("++")) {
             if (variables.get(ctx.variable.getText()) == null) {
@@ -170,11 +191,6 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
         } else {
             return 0.0;
         }
-    }
-
-    @Override
-    public Double visitComment(CalculatorParser.CommentContext ctx) {
-        return 0.0;
     }
 
     @Override
@@ -241,28 +257,12 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     }
 
     @Override
-    public Double visitOr(CalculatorParser.OrContext ctx) {
-        if (Double.valueOf(visit(ctx.el)) != 0 || Double.valueOf(visit(ctx.er)) != 0) {
-            return 1.0;
-        } else {
-            return 0.0;
-        }
-    }
-
-    @Override
     public Double visitNot(CalculatorParser.NotContext ctx) {
         if (Double.valueOf(visit(ctx.ex)) == 0) {
             return 1.0;
         } else {
             return 0.0;
         }
-    }
-
-    @Override
-    public Double visitString(CalculatorParser.StringContext ctx) {
-        String returnValue = ctx.STRING().getText().substring(1, ctx.STRING().getText().length() - 1);
-        System.out.println(returnValue);
-        return 0.0;
     }
 
     @Override
@@ -281,16 +281,17 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     }
 
     @Override
-    public Double visitWhileLoop(CalculatorParser.WhileLoopContext ctx){
-        while(visit(ctx.ex) != 0){
+    public Double visitWhileLoop(CalculatorParser.WhileLoopContext ctx) {
+        while (visit(ctx.ex) != 0) {
             visit(ctx.action);
         }
         return 0.0;
     }
 
-    @Override public Double visitForLoop(CalculatorParser.ForLoopContext ctx){
+    @Override
+    public Double visitForLoop(CalculatorParser.ForLoopContext ctx) {
         double initialValue = visit(ctx.ex1);
-        while (visit(ctx.ex2) != 0){
+        while (visit(ctx.ex2) != 0) {
             visit(ctx.action);
             visit(ctx.ex3);
         }
@@ -298,7 +299,7 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     }
 
     @Override
-    public Double visitFunctionDef(CalculatorParser.FunctionDefContext ctx){
+    public Double visitFunctionDef(CalculatorParser.FunctionDefContext ctx) {
         return 0.0;
     }
 }
