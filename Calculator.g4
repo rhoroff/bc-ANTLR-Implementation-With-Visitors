@@ -14,6 +14,10 @@ input: (comment)* (varAssign)* (topExpr)* (';' topExpr)* (
 		';' functionDef
 	)* ';'?;
 
+paramList : ID (',' ID)*? ;
+
+argumentList: (INT | DOUBLE | ID)* (',' (INT | DOUBLE | ID))*?;
+
 comment: COMMENT;
 
 string: STRING;
@@ -21,7 +25,7 @@ string: STRING;
 varAssign: varName = ID '=' ex = expr;
 
 functionCall:
-	ID '(' (INT | DOUBLE | ID)* (',' (INT | DOUBLE | ID))*? ')';
+	funcName= ID '(' argumentList ')';
 
 topExpr: expr;
 
@@ -52,8 +56,7 @@ expr
 	| el = expr op = '!=' er = expr					# NotEquals
 	| el = expr op = '&&' er = expr					# And
 	| el = expr op = '||' er = expr					# Or
-	| '!' (ex = expr)								# Not
-	| varAssign										# VarAssignment;
+	| '!' (ex = expr)								# Not;
 
 ifStatement:
 	IF '(' (cond = expr)+ ')' action = topExpr (
@@ -62,12 +65,12 @@ ifStatement:
 
 loops:
 	WHILE '(' ex = expr ')' action = topExpr								# WhileLoop
-	| FOR '(' ex1 = expr ';' ex2 = expr ';' ex3 = expr ')' action = topExpr	# ForLoop;
+	| FOR '('   ( ex1 = expr | varAss = varAssign) ';' ex2 = expr ';' (ex3 = expr | varUpdate = varAssign) ')' action = topExpr	# ForLoop;
 
 functionDef:
-	DEFINE ID '(' (ID)* (',' ID)*? ') {' (expr)*? (';' expr)? (
+	DEFINE funcName = ID'(' idList = paramList')' (WS)? '{' (expr ';'?)*? (';' expr)? (
 		';' expr ';'
-	)? 'return ' returnValue = expr '}';
+	)? 'return ' returnValue = expr ';'? '}';
 
 DEFINE: 'define';
 STRING: '"' .* '"';

@@ -22,6 +22,18 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInput(CalculatorParser.InputContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#paramList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParamList(CalculatorParser.ParamListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#argumentList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArgumentList(CalculatorParser.ArgumentListContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CalculatorParser#comment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -86,13 +98,6 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitGreaterThan(CalculatorParser.GreaterThanContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code VarAssignment}
-	 * labeled alternative in {@link CalculatorParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVarAssignment(CalculatorParser.VarAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code exprFunctionCall}
 	 * labeled alternative in {@link CalculatorParser#expr}.

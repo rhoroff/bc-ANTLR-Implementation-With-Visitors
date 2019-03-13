@@ -1,1 +1,1 @@
-x = 12; x = square(x)
+for(i; i < 10; i++) i

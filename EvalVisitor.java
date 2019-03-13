@@ -5,6 +5,7 @@ import java.io.Console;
 
 public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     Hashtable<String, Double> variables = new Hashtable<String, Double>();
+    Hashtable<String, CalculatorParser.FunctionDefContext> functionTable = new Hashtable<String, CalculatorParser.FunctionDefContext>();
 
     @Override
     public Double visitInput(CalculatorParser.InputContext ctx) {
@@ -290,16 +291,49 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
 
     @Override
     public Double visitForLoop(CalculatorParser.ForLoopContext ctx) {
-        double initialValue = visit(ctx.ex1);
-        while (visit(ctx.ex2) != 0) {
-            visit(ctx.action);
-            visit(ctx.ex3);
+        //This method is kind of hacky
+        //We don't want to make variable assignments participate in expressions so that they can't be used as arguments to function
+        //But we do want a function signature that can take expressions
+        //So we have the first part of the loop as optionally an expr or a var assignment
+        //If it's an expression, ignore the expression as it won't participate in  the evaluation of a variable as the loop termination condition
+        //I don't know of a for loop that doesn't do that 
+        //If it's a variable assignment, update the variable in the table (or define it)
+        //EX: for(ex1 = expr; ex2 =expr;expr), expr1 will have no bearing on the evaluation of expression 2, but expression 3 might
+        if(ctx.ex1 != null){
+            
+        }else{
+            visit(ctx.varAss);
         }
+
+        if(ctx.ex3 != null){
+            while (visit(ctx.ex2) != 0) {
+                visit(ctx.action);
+                visit(ctx.ex3);
+            }
+        }else{
+            while(visit(ctx.ex2) != 0){
+                visit(ctx.action);
+                visit(ctx.varUpdate);
+            }
+        }
+        
         return 0.0;
     }
 
+
     @Override
-    public Double visitFunctionDef(CalculatorParser.FunctionDefContext ctx) {
+    public Double visitFunctionCall(CalculatorParser.FunctionCallContext ctx){
+        CalculatorParser.FunctionDefContext functionDef = functionTable.get(ctx.funcName.getText());
+        //Hashtable<String, Double> localVariables = variables.clone();
         return 0.0;
     }
+    @Override
+    public Double visitFunctionDef(CalculatorParser.FunctionDefContext ctx){
+        String functionName = ctx.funcName.getText();
+        functionTable.put(functionName, ctx);
+        System.out.println("Function: " + functionName + " successfully added to function table");
+
+        return 0.0;
+    }
+
 }
