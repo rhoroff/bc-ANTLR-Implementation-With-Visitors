@@ -1,10 +1,4 @@
 // Generated from /Users/ryanhoroff/OneDrive/Spring 2019 School Work/COP4020/P2/Calculator.g4 by ANTLR 4.7.1
-
-    import java.util.Hashtable;
-    import java.lang.Math;
-    import java.util.*;
-    import java.io.Console;
-
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

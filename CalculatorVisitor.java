@@ -1,10 +1,4 @@
 // Generated from Calculator.g4 by ANTLR 4.7.2
-
-    import java.util.Hashtable;
-    import java.lang.Math;
-    import java.util.*;
-    import java.io.Console;
-
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -33,6 +27,12 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitArgumentList(CalculatorParser.ArgumentListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#exprList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprList(CalculatorParser.ExprListContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CalculatorParser#comment}.
 	 * @param ctx the parse tree

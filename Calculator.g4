@@ -1,11 +1,5 @@
 grammar Calculator;
 
-@header {
-    import java.util.Hashtable;
-    import java.lang.Math;
-    import java.util.*;
-    import java.io.Console;
-}
 input: (comment)* (varAssign)* (topExpr)* (';' topExpr)* (
 		comment
 	)* (loops)* (ifStatement)* (string)* (functionDef)* (
@@ -17,6 +11,8 @@ input: (comment)* (varAssign)* (topExpr)* (';' topExpr)* (
 paramList : ID (',' ID)*? ;
 
 argumentList: (INT | DOUBLE | ID)* (',' (INT | DOUBLE | ID))*?;
+
+exprList: (expr)+ (';' expr)* ';'?;
 
 comment: COMMENT;
 
@@ -68,9 +64,7 @@ loops:
 	| FOR '('   ( ex1 = expr | varAss = varAssign) ';' ex2 = expr ';' (ex3 = expr | varUpdate = varAssign) ')' action = topExpr	# ForLoop;
 
 functionDef:
-	DEFINE funcName = ID'(' idList = paramList')' (WS)? '{' (expr ';'?)*? (';' expr)? (
-		';' expr ';'
-	)? 'return ' returnValue = expr ';'? '}';
+	DEFINE funcName = ID'(' idList = paramList')' (WS)? '{' (exprList)? 'return ' returnValue = expr ';'? '}';
 
 DEFINE: 'define';
 STRING: '"' .* '"';

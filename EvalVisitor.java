@@ -5,7 +5,7 @@ import java.io.Console;
 
 public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     Hashtable<String, Double> variables = new Hashtable<String, Double>();
-    Hashtable<String, CalculatorParser.FunctionDefContext> functionTable = new Hashtable<String, CalculatorParser.FunctionDefContext>();
+    Hashtable<String, List<CalculatorParser.ExprContext>> functionTable = new Hashtable<String, List<CalculatorParser.ExprContext>>();
 
     @Override
     public Double visitInput(CalculatorParser.InputContext ctx) {
@@ -323,14 +323,25 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
 
     @Override
     public Double visitFunctionCall(CalculatorParser.FunctionCallContext ctx){
-        CalculatorParser.FunctionDefContext functionDef = functionTable.get(ctx.funcName.getText());
-        //Hashtable<String, Double> localVariables = variables.clone();
+        Hashtable<String
+        List<CalculatorParser.ExprContext> expressions = functionTable.get(ctx.funcName.getText());
+        for(CalculatorParser.ExprContext expr:expressions){
+            System.out.println(visit(expr));
+        }
         return 0.0;
     }
+
+
+
     @Override
     public Double visitFunctionDef(CalculatorParser.FunctionDefContext ctx){
         String functionName = ctx.funcName.getText();
-        functionTable.put(functionName, ctx);
+        List<CalculatorParser.ExprContext> expressionList = ctx.exprList().expr();
+        expressionList.add(ctx.returnValue);
+        System.out.println(expressionList.size());
+        
+        functionTable.put(functionName, expressionList);
+        
         System.out.println("Function: " + functionName + " successfully added to function table");
 
         return 0.0;
