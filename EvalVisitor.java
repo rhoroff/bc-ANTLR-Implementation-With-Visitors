@@ -4,9 +4,13 @@ import java.util.*;
 import java.io.Console;
 
 public class EvalVisitor extends CalculatorBaseVisitor<Double> {
-    Hashtable<String, Double> variables = new Hashtable<String, Double>();
+    Stack<Hashtable> scopes = new Stack<Hashtable>();
+    Hashtable<String, Double> globalVariables = new Hashtable<String, Double>();
     Hashtable<String, List<CalculatorParser.ExprContext>> functionTable = new Hashtable<String, List<CalculatorParser.ExprContext>>();
 
+    public EvalVisitor(){
+        this.scopes.push(this.globalVariables);
+    }
     @Override
     public Double visitInput(CalculatorParser.InputContext ctx) {
         return (visitChildren(ctx));
@@ -27,6 +31,7 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     @Override
     public Double visitVarAssign(CalculatorParser.VarAssignContext ctx) {
         double value = visit(ctx.ex);
+        Hashtable<String,Double> variables = scopes.peek();
         variables.put(ctx.varName.getText(), value);
         return 0.0;
     }
@@ -135,6 +140,7 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
 
     @Override
     public Double visitVarRead(CalculatorParser.VarReadContext ctx) {
+        Hashtable<String, Double> variables = scopes.peek();
         if (variables.get(ctx.var.getText()) == null) {
             return 0.0;
         } else {
@@ -144,6 +150,7 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
 
     @Override
     public Double visitPreCrement(CalculatorParser.PreCrementContext ctx) {
+        Hashtable<String, Double> variables = scopes.peek();
         if (ctx.op.getText().equals("++")) {
             if (variables.get(ctx.variable.getText()) == null) {
                 variables.put(ctx.variable.getText(), 1.0);
@@ -170,6 +177,7 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
 
     @Override
     public Double visitPostCrement(CalculatorParser.PostCrementContext ctx) {
+        Hashtable<String, Double> variables = scopes.peek();
         if (ctx.op.getText().equals("++")) {
             if (variables.get(ctx.variable.getText()) == null) {
                 variables.put(ctx.variable.getText(), 1.0);
@@ -323,25 +331,27 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
 
     @Override
     public Double visitFunctionCall(CalculatorParser.FunctionCallContext ctx){
-        Hashtable<String
+        Hashtable<Double, String> newScope = (Hashtable)scopes.peek().clone();
+        scopes.push(newScope);
+        double finalValue = 0.0;
         List<CalculatorParser.ExprContext> expressions = functionTable.get(ctx.funcName.getText());
         for(CalculatorParser.ExprContext expr:expressions){
-            System.out.println(visit(expr));
+            finalValue = visit(expr);
         }
-        return 0.0;
+        scopes.pop();
+        return finalValue;
     }
-
 
 
     @Override
     public Double visitFunctionDef(CalculatorParser.FunctionDefContext ctx){
         String functionName = ctx.funcName.getText();
-        List<CalculatorParser.ExprContext> expressionList = ctx.exprList().expr();
+        List<CalculatorParser.ExprContext> expressionList = new ArrayList();
+        if(ctx.exprList() != null) {
+            expressionList = ctx.exprList().expr();
+        }
         expressionList.add(ctx.returnValue);
-        System.out.println(expressionList.size());
-        
         functionTable.put(functionName, expressionList);
-        
         System.out.println("Function: " + functionName + " successfully added to function table");
 
         return 0.0;
