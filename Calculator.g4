@@ -8,9 +8,12 @@ input: (comment)* (varAssign)* (topExpr)* (';' topExpr)* (
 		';' functionDef
 	)* ';'?;
 
-paramList : ID (',' ID)*? ;
+id: ID;
 
-argumentList: (INT | DOUBLE | ID)* (',' (INT | DOUBLE | ID))*?;
+
+paramList : id (',' id)*? ;
+
+argumentList: (expr)* (',' expr)*?;
 
 exprList: (expr)+ (';' expr)* ';'?;
 

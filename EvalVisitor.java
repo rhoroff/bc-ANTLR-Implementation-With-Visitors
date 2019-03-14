@@ -6,7 +6,7 @@ import java.io.Console;
 public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     Stack<Hashtable> scopes = new Stack<Hashtable>();
     Hashtable<String, Double> globalVariables = new Hashtable<String, Double>();
-    Hashtable<String, List<CalculatorParser.ExprContext>> functionTable = new Hashtable<String, List<CalculatorParser.ExprContext>>();
+    Hashtable<String, FunctionContainer> functionTable = new Hashtable<String, FunctionContainer>();
 
     public EvalVisitor(){
         this.scopes.push(this.globalVariables);
@@ -331,10 +331,21 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
 
     @Override
     public Double visitFunctionCall(CalculatorParser.FunctionCallContext ctx){
-        Hashtable<Double, String> newScope = (Hashtable)scopes.peek().clone();
+        Hashtable<String, Double> newScope = (Hashtable)scopes.peek().clone();
         scopes.push(newScope);
         double finalValue = 0.0;
-        List<CalculatorParser.ExprContext> expressions = functionTable.get(ctx.funcName.getText());
+        FunctionContainer function = functionTable.get(ctx.funcName.getText());
+        List<CalculatorParser.ExprContext> expressions = function.getListOfExpressions();
+        List<CalculatorParser.IdContext> paramVars = function.getListOfParams();
+        List<CalculatorParser.ExprContext> arguments = ctx.argumentList().expr();
+        if(arguments.size() != paramVars.size()){
+            System.out.println("Not enough arguments for function call");
+            return 0.0;
+        }else{
+            for(int i = 0; i < paramVars.size();i++){
+                newScope.put(paramVars.get(i).ID().getText(), visit(arguments.get(i)));
+            }
+        }
         for(CalculatorParser.ExprContext expr:expressions){
             finalValue = visit(expr);
         }
@@ -347,13 +358,16 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     public Double visitFunctionDef(CalculatorParser.FunctionDefContext ctx){
         String functionName = ctx.funcName.getText();
         List<CalculatorParser.ExprContext> expressionList = new ArrayList();
+        List<CalculatorParser.IdContext> paramList = new ArrayList();
         if(ctx.exprList() != null) {
             expressionList = ctx.exprList().expr();
         }
+        if(ctx.paramList() !=null){
+            paramList = ctx.paramList().id();
+        }
         expressionList.add(ctx.returnValue);
-        functionTable.put(functionName, expressionList);
-        System.out.println("Function: " + functionName + " successfully added to function table");
-
+        FunctionContainer newFunction = new FunctionContainer(expressionList, paramList);
+        functionTable.put(functionName, newFunction);
         return 0.0;
     }
 

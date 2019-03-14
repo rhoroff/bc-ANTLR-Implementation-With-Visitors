@@ -1,32 +1,30 @@
 import java.util.Hashtable;
-
-import CalculatorParser.ExprContext;
-
 import java.lang.Math;
 import java.util.*;
 import java.io.Console;
 
-public class functionContainer{
-    private String functionName;
+
+public class FunctionContainer{
     private List<CalculatorParser.ExprContext> listOfExpressions;
-    private List<CalculatorParser.ExprContext> listOfParams;
+    private List<CalculatorParser.IdContext> listOfParams;
 
-    public String getFunctionName(){
-        return this.functionName;
+    public FunctionContainer(){
+        this.listOfExpressions = null;
+        this.listOfParams = null;
     }
 
-    public String setFunctionName(String name){
-        this.functionName = newName;
+    public FunctionContainer(List<CalculatorParser.ExprContext> expressions, List<CalculatorParser.IdContext> params){
+        this.listOfExpressions = expressions;
+        this.listOfParams = params;
     }
 
-    public List<CalculatorParser.ExprContext> getListofExpressions(){
+    public List<CalculatorParser.ExprContext> getListOfExpressions(){
         return this.listOfExpressions;
     }
 
-    public List<CalculatorParser.ExprContext> getListOfParams(){
+    public List<CalculatorParser.IdContext> getListOfParams(){
         return this.listOfParams;
     }
 
-    public evaluateFunction()
-
+    
 }
