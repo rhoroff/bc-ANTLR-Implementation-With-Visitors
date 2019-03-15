@@ -126,6 +126,13 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExprParen(CalculatorParser.ExprParenContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code VarAssignExpression}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarAssignExpression(CalculatorParser.VarAssignExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code AddSub}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree

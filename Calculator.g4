@@ -55,8 +55,10 @@ expr
 	| el = expr op = '!=' er = expr					# NotEquals
 	| el = expr op = '&&' er = expr					# And
 	| el = expr op = '||' er = expr					# Or
-	| '!' (ex = expr)								# Not;
-
+	| '!' (ex = expr)								# Not
+	| varAssign										#VarAssignExpression
+	;
+	
 ifStatement:
 	IF '(' (cond = expr)+ ')' action = topExpr (
 		(ELSE) (altAction = topExpr)

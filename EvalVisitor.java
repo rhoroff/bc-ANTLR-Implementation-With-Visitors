@@ -8,9 +8,10 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     Hashtable<String, Double> globalVariables = new Hashtable<String, Double>();
     Hashtable<String, FunctionContainer> functionTable = new Hashtable<String, FunctionContainer>();
 
-    public EvalVisitor(){
+    public EvalVisitor() {
         this.scopes.push(this.globalVariables);
     }
+
     @Override
     public Double visitInput(CalculatorParser.InputContext ctx) {
         return (visitChildren(ctx));
@@ -31,7 +32,7 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     @Override
     public Double visitVarAssign(CalculatorParser.VarAssignContext ctx) {
         double value = visit(ctx.ex);
-        Hashtable<String,Double> variables = scopes.peek();
+        Hashtable<String, Double> variables = scopes.peek();
         variables.put(ctx.varName.getText(), value);
         return 0.0;
     }
@@ -39,7 +40,11 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     @Override
     public Double visitTopExpr(CalculatorParser.TopExprContext ctx) {
         double value = visit(ctx.expr());
-        System.out.println("Result: " + value);
+        if ((value == Math.floor(value)) && !Double.isInfinite(value)) {
+            System.out.println((int)(value));
+        }else{
+            System.out.println(value);
+        }
         return 0.0;// Makes java happy by returning a dummy value
     }
 
@@ -74,7 +79,6 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     public Double visitAddSub(CalculatorParser.AddSubContext ctx) {
         double left = visit(ctx.el);
         double right = visit(ctx.er);
-        double value;
         if (ctx.op.getText().equals("+")) {
             return left + right;
         } else {
@@ -299,70 +303,75 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
 
     @Override
     public Double visitForLoop(CalculatorParser.ForLoopContext ctx) {
-        //This method is kind of hacky
-        //We don't want to make variable assignments participate in expressions so that they can't be used as arguments to function
-        //But we do want a function signature that can take expressions
-        //So we have the first part of the loop as optionally an expr or a var assignment
-        //If it's an expression, ignore the expression as it won't participate in  the evaluation of a variable as the loop termination condition
-        //I don't know of a for loop that doesn't do that 
-        //If it's a variable assignment, update the variable in the table (or define it)
-        //EX: for(ex1 = expr; ex2 =expr;expr), expr1 will have no bearing on the evaluation of expression 2, but expression 3 might
-        if(ctx.ex1 != null){
-            
-        }else{
+        // This method is kind of hacky
+        // We don't want to make variable assignments participate in expressions so that
+        // they can't be used as arguments to function
+        // But we do want a function signature that can take expressions
+        // So we have the first part of the loop as optionally an expr or a var
+        // assignment
+        // If it's an expression, ignore the expression as it won't participate in the
+        // evaluation of a variable as the loop termination condition
+        // I don't know of a for loop that doesn't do that
+        // If it's a variable assignment, update the variable in the table (or define
+        // it)
+        // EX: for(ex1 = expr; ex2 =expr;expr), expr1 will have no bearing on the
+        // evaluation of expression 2, but expression 3 might
+        if (ctx.ex1 != null) {
+
+        } else {
             visit(ctx.varAss);
         }
 
-        if(ctx.ex3 != null){
+        if (ctx.ex3 != null) {
             while (visit(ctx.ex2) != 0) {
                 visit(ctx.action);
                 visit(ctx.ex3);
             }
-        }else{
-            while(visit(ctx.ex2) != 0){
+        } else {
+            while (visit(ctx.ex2) != 0) {
                 visit(ctx.action);
                 visit(ctx.varUpdate);
             }
         }
-        
+
         return 0.0;
     }
 
-
     @Override
-    public Double visitFunctionCall(CalculatorParser.FunctionCallContext ctx){
-        Hashtable<String, Double> newScope = (Hashtable)scopes.peek().clone();
+    public Double visitFunctionCall(CalculatorParser.FunctionCallContext ctx) {
+        Hashtable<String, Double> newScope = (Hashtable) scopes.peek().clone();// Global scope is copies and can be
+                                                                               // edited without messing with the true
+                                                                               // global scope
         scopes.push(newScope);
         double finalValue = 0.0;
         FunctionContainer function = functionTable.get(ctx.funcName.getText());
         List<CalculatorParser.ExprContext> expressions = function.getListOfExpressions();
         List<CalculatorParser.IdContext> paramVars = function.getListOfParams();
         List<CalculatorParser.ExprContext> arguments = ctx.argumentList().expr();
-        if(arguments.size() != paramVars.size()){
+        if (arguments.size() != paramVars.size()) {
             System.out.println("Not enough arguments for function call");
             return 0.0;
-        }else{
-            for(int i = 0; i < paramVars.size();i++){
+        } else {
+            for (int i = 0; i < paramVars.size(); i++) {
                 newScope.put(paramVars.get(i).ID().getText(), visit(arguments.get(i)));
             }
         }
-        for(CalculatorParser.ExprContext expr:expressions){
+        for (CalculatorParser.ExprContext expr : expressions) {
             finalValue = visit(expr);
         }
         scopes.pop();
         return finalValue;
     }
 
-
     @Override
-    public Double visitFunctionDef(CalculatorParser.FunctionDefContext ctx){
+    public Double visitFunctionDef(CalculatorParser.FunctionDefContext ctx) {
         String functionName = ctx.funcName.getText();
         List<CalculatorParser.ExprContext> expressionList = new ArrayList();
         List<CalculatorParser.IdContext> paramList = new ArrayList();
-        if(ctx.exprList() != null) {
+        if (ctx.exprList() != null) {
             expressionList = ctx.exprList().expr();
         }
-        if(ctx.paramList() !=null){
+        if (ctx.paramList() != null) {
             paramList = ctx.paramList().id();
         }
         expressionList.add(ctx.returnValue);
