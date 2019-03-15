@@ -1,1 +1,1 @@
-define SquareOfSquare(x,y){val = x * y; return sqrt(x*y);}
+define recursion(x, y){if (x==1) return x else return y}

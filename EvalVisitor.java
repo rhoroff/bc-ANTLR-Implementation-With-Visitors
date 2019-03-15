@@ -41,8 +41,8 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
     public Double visitTopExpr(CalculatorParser.TopExprContext ctx) {
         double value = visit(ctx.expr());
         if ((value == Math.floor(value)) && !Double.isInfinite(value)) {
-            System.out.println((int)(value));
-        }else{
+            System.out.println((int) (value));
+        } else {
             System.out.println(value);
         }
         return 0.0;// Makes java happy by returning a dummy value
@@ -344,23 +344,28 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
                                                                                // global scope
         scopes.push(newScope);
         double finalValue = 0.0;
-        FunctionContainer function = functionTable.get(ctx.funcName.getText());
-        List<CalculatorParser.ExprContext> expressions = function.getListOfExpressions();
-        List<CalculatorParser.IdContext> paramVars = function.getListOfParams();
-        List<CalculatorParser.ExprContext> arguments = ctx.argumentList().expr();
-        if (arguments.size() != paramVars.size()) {
-            System.out.println("Not enough arguments for function call");
-            return 0.0;
-        } else {
-            for (int i = 0; i < paramVars.size(); i++) {
-                newScope.put(paramVars.get(i).ID().getText(), visit(arguments.get(i)));
+        if(functionTable.get(ctx.funcName.getText()) != null){
+            FunctionContainer function = functionTable.get(ctx.funcName.getText());
+            List<CalculatorParser.ExprContext> expressions = function.getListOfExpressions();
+            List<CalculatorParser.IdContext> paramVars = function.getListOfParams();
+            List<CalculatorParser.ExprContext> arguments = ctx.argumentList().expr();
+            if (arguments.size() != paramVars.size()) {
+                System.out.println("Not enough arguments for function call");
+                return 0.0;
+            } else {
+                for (int i = 0; i < paramVars.size(); i++) {
+                    newScope.put(paramVars.get(i).ID().getText(), visit(arguments.get(i)));
+                }
             }
+            for (CalculatorParser.ExprContext expr : expressions) {
+                finalValue = visit(expr);
+            }
+            scopes.pop();
+            return finalValue;
+        }else{
+            System.out.println("Function " + ctx.funcName.getText() + " not defined");
+            return 0.0;
         }
-        for (CalculatorParser.ExprContext expr : expressions) {
-            finalValue = visit(expr);
-        }
-        scopes.pop();
-        return finalValue;
     }
 
     @Override
