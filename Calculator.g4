@@ -10,12 +10,13 @@ input: (comment)* (varAssign)* (topExpr)* (';' topExpr)* (
 
 id: ID;
 
-
-paramList : id (',' id)*? ;
+paramList: id (',' id)*?;
 
 argumentList: (expr)* (',' expr)*?;
 
 exprList: (expr)+ (';' expr)* ';'?;
+
+statementList: '{' topExpr (';' topExpr)*? ';'? '}';
 
 comment: COMMENT;
 
@@ -23,8 +24,7 @@ string: STRING;
 
 varAssign: varName = ID '=' ex = expr;
 
-functionCall:
-	funcName= ID '(' argumentList ')';
+functionCall: funcName = ID '(' argumentList ')';
 
 topExpr: expr;
 
@@ -56,21 +56,28 @@ expr
 	| el = expr op = '&&' er = expr					# And
 	| el = expr op = '||' er = expr					# Or
 	| '!' (ex = expr)								# Not
-	| varAssign										#VarAssignExpression
+	| varAssign										# VarAssignExpression
 	;
-	
+
 ifStatement:
 	IF '(' (cond = expr)+ ')' action = topExpr (
 		(ELSE) (altAction = topExpr)
 	)?;
 
 loops:
-	WHILE '(' ex = expr ')' action = topExpr								# WhileLoop
-	| FOR '('   ( ex1 = expr | varAss = varAssign) ';' ex2 = expr ';' (ex3 = expr | varUpdate = varAssign) ')' action = topExpr	# ForLoop;
+	WHILE '(' ex = expr ')' (action = topExpr| statements = statementList) # WhileLoop
+	| FOR '(' (ex1 = expr | varAss = varAssign) ';' ex2 = expr ';' (
+		ex3 = expr
+		| varUpdate = varAssign
+	) ')' action = topExpr # ForLoop;
 
 functionDef:
-	DEFINE funcName = ID'(' idList = paramList')' (WS)? '{' (exprList)? 'return ' returnValue = expr ';'? '}';
+	DEFINE funcName = ID '(' idList = paramList ')' (WS)? '{' (
+		exprList
+	)? 'return ' returnValue = expr ';'? '}';
 
+CONTINUE: 'continue';
+BREAK: 'break';
 DEFINE: 'define';
 STRING: '"' .* '"';
 IF: 'if';

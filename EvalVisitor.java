@@ -295,9 +295,16 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
 
     @Override
     public Double visitWhileLoop(CalculatorParser.WhileLoopContext ctx) {
-        while (visit(ctx.ex) != 0) {
-            visit(ctx.action);
+        if(ctx.action != null){
+            while (visit(ctx.ex) != 0) {
+                visit(ctx.action);
+            }
+        }else{
+            while(visit(ctx.ex) != 0){
+                visit(ctx.statements);
+            }
         }
+        
         return 0.0;
     }
 
@@ -317,7 +324,7 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
         // EX: for(ex1 = expr; ex2 =expr;expr), expr1 will have no bearing on the
         // evaluation of expression 2, but expression 3 might
         if (ctx.ex1 != null) {
-
+            //Do nothing
         } else {
             visit(ctx.varAss);
         }
@@ -339,9 +346,10 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
 
     @Override
     public Double visitFunctionCall(CalculatorParser.FunctionCallContext ctx) {
-        Hashtable<String, Double> newScope = (Hashtable) scopes.peek().clone();// Global scope is copies and can be
-                                                                               // edited without messing with the true
-                                                                               // global scope
+        Hashtable<String, Double> newScope = (Hashtable) scopes.peek().clone();
+        //Copy the global scope and push it to a stack of scopes
+        //Doing so allows for us to manipuate the local scope as it will always be the top of the stack
+        //When the function has completed, pop the scope of the  stack, having all further references to scope referencing the scope that is now the top of the stack
         scopes.push(newScope);
         double finalValue = 0.0;
         if(functionTable.get(ctx.funcName.getText()) != null){
@@ -382,6 +390,15 @@ public class EvalVisitor extends CalculatorBaseVisitor<Double> {
         expressionList.add(ctx.returnValue);
         FunctionContainer newFunction = new FunctionContainer(expressionList, paramList);
         functionTable.put(functionName, newFunction);
+        return 0.0;
+    }
+
+    @Override
+    public Double visitStatementList(CalculatorParser.StatementListContext ctx){
+        List<CalculatorParser.TopExprContext> listOfExpresions= ctx.topExpr();
+        for(CalculatorParser.TopExprContext expression : listOfExpresions){
+            visit(expression);
+        }
         return 0.0;
     }
 
