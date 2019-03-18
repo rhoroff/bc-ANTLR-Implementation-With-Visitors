@@ -21,7 +21,7 @@ public class CalculatorParser extends Parser {
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
 		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
 		CONTINUE=32, BREAK=33, DEFINE=34, STRING=35, IF=36, ELSE=37, WHILE=38, 
-		FOR=39, COMMENT=40, ID=41, INT=42, DOUBLE=43, WS=44;
+		FOR=39, COMMENT=40, ID=41, DOUBLE=42, INT=43, WS=44;
 	public static final int
 		RULE_input = 0, RULE_id = 1, RULE_paramList = 2, RULE_argumentList = 3, 
 		RULE_exprList = 4, RULE_statementList = 5, RULE_comment = 6, RULE_string = 7, 
@@ -51,8 +51,8 @@ public class CalculatorParser extends Parser {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, "CONTINUE", "BREAK", 
-			"DEFINE", "STRING", "IF", "ELSE", "WHILE", "FOR", "COMMENT", "ID", "INT", 
-			"DOUBLE", "WS"
+			"DEFINE", "STRING", "IF", "ELSE", "WHILE", "FOR", "COMMENT", "ID", "DOUBLE", 
+			"INT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -203,7 +203,7 @@ public class CalculatorParser extends Parser {
 			setState(45);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__29) | (1L << ID) | (1L << INT) | (1L << DOUBLE))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__29) | (1L << ID) | (1L << DOUBLE) | (1L << INT))) != 0)) {
 				{
 				{
 				setState(42);
@@ -536,7 +536,7 @@ public class CalculatorParser extends Parser {
 			setState(136);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__29) | (1L << ID) | (1L << INT) | (1L << DOUBLE))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__29) | (1L << ID) | (1L << DOUBLE) | (1L << INT))) != 0)) {
 				{
 				{
 				setState(133);
@@ -617,7 +617,7 @@ public class CalculatorParser extends Parser {
 				setState(149); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__29) | (1L << ID) | (1L << INT) | (1L << DOUBLE))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__29) | (1L << ID) | (1L << DOUBLE) | (1L << INT))) != 0) );
 			setState(155);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
@@ -1767,7 +1767,7 @@ public class CalculatorParser extends Parser {
 				setState(274); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__29) | (1L << ID) | (1L << INT) | (1L << DOUBLE))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__29) | (1L << ID) | (1L << DOUBLE) | (1L << INT))) != 0) );
 			setState(276);
 			match(T__6);
 			setState(277);
@@ -1898,8 +1898,8 @@ public class CalculatorParser extends Parser {
 				case T__20:
 				case T__29:
 				case ID:
-				case INT:
 				case DOUBLE:
+				case INT:
 					{
 					setState(286);
 					((WhileLoopContext)_localctx).action = topExpr();
@@ -2042,7 +2042,7 @@ public class CalculatorParser extends Parser {
 			setState(318);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__29) | (1L << ID) | (1L << INT) | (1L << DOUBLE))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__29) | (1L << ID) | (1L << DOUBLE) | (1L << INT))) != 0)) {
 				{
 				setState(317);
 				exprList();
@@ -2185,7 +2185,7 @@ public class CalculatorParser extends Parser {
 		"\u00c0\u00c1\b\r\1\2\u00c1\u00c2\7\n\2\2\u00c2\u00e6\5\30\r\35\u00c3\u00c4"+
 		"\7\b\2\2\u00c4\u00c5\5\30\r\2\u00c5\u00c6\7\t\2\2\u00c6\u00e6\3\2\2\2"+
 		"\u00c7\u00e6\5\24\13\2\u00c8\u00c9\t\2\2\2\u00c9\u00e6\5\30\r\31\u00ca"+
-		"\u00e6\7,\2\2\u00cb\u00e6\7-\2\2\u00cc\u00e6\7+\2\2\u00cd\u00ce\7\22\2"+
+		"\u00e6\7-\2\2\u00cb\u00e6\7,\2\2\u00cc\u00e6\7+\2\2\u00cd\u00ce\7\22\2"+
 		"\2\u00ce\u00cf\5\30\r\2\u00cf\u00d0\7\t\2\2\u00d0\u00e6\3\2\2\2\u00d1"+
 		"\u00d2\7\23\2\2\u00d2\u00d3\5\30\r\2\u00d3\u00d4\7\t\2\2\u00d4\u00e6\3"+
 		"\2\2\2\u00d5\u00d6\7\24\2\2\u00d6\u00d7\5\30\r\2\u00d7\u00d8\7\t\2\2\u00d8"+

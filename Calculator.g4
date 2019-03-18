@@ -86,6 +86,6 @@ WHILE: 'while';
 FOR: 'for';
 COMMENT: '/*' .* '*/';
 ID: [_A-Za-z]+;
+DOUBLE: ([0-9]+)? '.' [0-9]+;
 INT: [0-9]+;
-DOUBLE: [0-9]+ '.' [0-9]+;
 WS: [ \t\r\n]+ -> skip;
