@@ -1,10 +1,4 @@
 // Generated from Calculator.g4 by ANTLR 4.7.2
-
-    import java.util.Hashtable;
-    import java.lang.Math;
-    import java.util.*;
-    import java.io.Console;
-
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -22,11 +16,47 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInput(CalculatorParser.InputContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#id}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitId(CalculatorParser.IdContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#paramList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParamList(CalculatorParser.ParamListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#argumentList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArgumentList(CalculatorParser.ArgumentListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#exprList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprList(CalculatorParser.ExprListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#statementList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatementList(CalculatorParser.StatementListContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CalculatorParser#comment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitComment(CalculatorParser.CommentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#string}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString(CalculatorParser.StringContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CalculatorParser#varAssign}.
 	 * @param ctx the parse tree
@@ -34,74 +64,11 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVarAssign(CalculatorParser.VarAssignContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link CalculatorParser#topBool}.
+	 * Visit a parse tree produced by {@link CalculatorParser#functionCall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTopBool(CalculatorParser.TopBoolContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Equals}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEquals(CalculatorParser.EqualsContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code LessThan}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLessThan(CalculatorParser.LessThanContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code GreaterThan}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGreaterThan(CalculatorParser.GreaterThanContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code GreaterThanEquals}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGreaterThanEquals(CalculatorParser.GreaterThanEqualsContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code LessThanEquals}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLessThanEquals(CalculatorParser.LessThanEqualsContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code NotEquals}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNotEquals(CalculatorParser.NotEqualsContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code And}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAnd(CalculatorParser.AndContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Or}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitOr(CalculatorParser.OrContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Not}
-	 * labeled alternative in {@link CalculatorParser#bool}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNot(CalculatorParser.NotContext ctx);
+	T visitFunctionCall(CalculatorParser.FunctionCallContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CalculatorParser#topExpr}.
 	 * @param ctx the parse tree
@@ -109,12 +76,68 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTopExpr(CalculatorParser.TopExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Or}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOr(CalculatorParser.OrContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Int}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInt(CalculatorParser.IntContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Read}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRead(CalculatorParser.ReadContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LessThan}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLessThan(CalculatorParser.LessThanContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code GreaterThan}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGreaterThan(CalculatorParser.GreaterThanContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code exprFunctionCall}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprFunctionCall(CalculatorParser.ExprFunctionCallContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Ln}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLn(CalculatorParser.LnContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExprParen}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprParen(CalculatorParser.ExprParenContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code VarAssignExpression}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarAssignExpression(CalculatorParser.VarAssignExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code AddSub}
 	 * labeled alternative in {@link CalculatorParser#expr}.
@@ -151,19 +174,33 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDivTimesMod(CalculatorParser.DivTimesModContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Int}
+	 * Visit a parse tree produced by the {@code NotEquals}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInt(CalculatorParser.IntContext ctx);
+	T visitNotEquals(CalculatorParser.NotEqualsContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Read}
+	 * Visit a parse tree produced by the {@code GreaterThanEquals}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRead(CalculatorParser.ReadContext ctx);
+	T visitGreaterThanEquals(CalculatorParser.GreaterThanEqualsContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Not}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNot(CalculatorParser.NotContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Equals}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEquals(CalculatorParser.EqualsContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code VarRead}
 	 * labeled alternative in {@link CalculatorParser#expr}.
@@ -171,6 +208,13 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVarRead(CalculatorParser.VarReadContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code And}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAnd(CalculatorParser.AndContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code PostCrement}
 	 * labeled alternative in {@link CalculatorParser#expr}.
@@ -214,10 +258,36 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPreCrement(CalculatorParser.PreCrementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Paren}
+	 * Visit a parse tree produced by the {@code LessThanEquals}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParen(CalculatorParser.ParenContext ctx);
+	T visitLessThanEquals(CalculatorParser.LessThanEqualsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#ifStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfStatement(CalculatorParser.IfStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code WhileLoop}
+	 * labeled alternative in {@link CalculatorParser#loops}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileLoop(CalculatorParser.WhileLoopContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ForLoop}
+	 * labeled alternative in {@link CalculatorParser#loops}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForLoop(CalculatorParser.ForLoopContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CalculatorParser#functionDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionDef(CalculatorParser.FunctionDefContext ctx);
 }
